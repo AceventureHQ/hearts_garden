@@ -1,46 +1,109 @@
-import SceneCanvas from "./components/scene-canvas";
+"use client";
 import WaitlistForm from "./components/waitlist-form";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden px-6 py-10 sm:px-10 lg:px-12">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.24),_transparent_34%),radial-gradient(circle_at_20%_20%,_rgba(244,114,182,0.25),_transparent_28%),radial-gradient(circle_at_80%_30%,_rgba(251,191,36,0.22),_transparent_24%),linear-gradient(135deg,_#0f172a_0%,_#111827_48%,_#020617_100%)]" />
-      <div className="absolute inset-x-0 top-0 h-px bg-white/10" />
+    <main className="relative min-h-screen overflow-hidden">
+      {/* Animated background */}
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-pink-800 to-rose-900 opacity-30" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,_rgba(236,72,153,0.15),_transparent_50%),radial-gradient(circle_at_80%_80%,_rgba(168,85,247,0.15),_transparent_50%)]" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
+        
+        {/* Animated floating elements */}
+        <div className="absolute top-20 left-10 w-64 h-64 bg-pink-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" />
+        <div className="absolute top-40 right-10 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000" />
+        <div className="absolute bottom-10 left-1/2 w-72 h-72 bg-rose-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000" />
+      </div>
 
-      <section className="relative grid w-full max-w-6xl gap-8 rounded-[2rem] border border-white/10 bg-white/8 p-6 shadow-2xl shadow-black/30 backdrop-blur-xl sm:p-8 lg:grid-cols-[0.95fr_1.05fr] lg:p-12">
-        <div className="flex flex-col justify-between gap-8">
-          <div className="space-y-6">
-            <p className="inline-flex w-fit items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium tracking-[0.2em] text-white/80 uppercase">
+      <style>{`
+        @keyframes blob {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          33% { transform: translate(30px, -50px) scale(1.1); }
+          66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+        .animate-blob {
+          animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+        .animation-delay-4000 {
+          animation-delay: 4s;
+        }
+      `}</style>
+
+      <div className="relative flex flex-col items-center justify-center min-h-screen px-6 py-10 sm:px-10 lg:px-12">
+        {/* Decorative elements */}
+        <div className="absolute top-0 left-0 w-40 h-40 text-6xl opacity-10 select-none pointer-events-none">🌱</div>
+        <div className="absolute bottom-0 right-0 w-40 h-40 text-6xl opacity-10 select-none pointer-events-none">💐</div>
+        <div className="absolute top-1/3 right-20 text-5xl opacity-5 select-none pointer-events-none animate-pulse">💜</div>
+
+        <div className="relative max-w-2xl text-center space-y-8">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-3 rounded-full border border-pink-300/30 bg-pink-500/10 px-6 py-3 backdrop-blur">
+            <span className="text-2xl">🌿</span>
+            <span className="text-sm font-semibold tracking-widest text-pink-200 uppercase">
               Hearts Garden
-            </p>
-            <div className="space-y-4">
-              <h1 className="max-w-2xl text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-7xl">
-                Coming soon.
-                <span className="block text-white/70">Something atmospheric is growing here.</span>
-              </h1>
-              <p className="max-w-xl text-base leading-7 text-white/70 sm:text-lg">
-                The main page is now a temporary coming-soon screen while the rest of the experience is being built.
-                The 3D preview on the right is powered by Three.js through <span className="text-white">@react-three/fiber</span> and <span className="text-white">@react-three/drei</span>.
-              </p>
-            </div>
+            </span>
+            <span className="text-2xl">💜</span>
           </div>
 
-          <WaitlistForm />
+          {/* Main heading with whimsical styling */}
+          <div className="space-y-6">
+            <h1 className="text-7xl sm:text-8xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-300 to-pink-300">
+              Growing
+            </h1>
+            <h2 className="text-3xl sm:text-4xl font-semibold text-pink-100/80">
+              Something Beautiful
+            </h2>
+          </div>
 
-          <div className="grid gap-3 sm:grid-cols-2">
-            <div className="rounded-3xl border border-white/10 bg-white/8 p-5 text-white/80">
-              <p className="text-sm uppercase tracking-[0.2em] text-white/45">Status</p>
-              <p className="mt-2 text-lg font-medium text-white">3D scene scaffolded</p>
+          {/* Description */}
+          <p className="text-lg text-pink-100/70 leading-relaxed max-w-xl mx-auto">
+            Welcome!
+          </p>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6">
+            <Link
+              href="/explore"
+              className="px-8 py-4 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-semibold transition-all transform hover:scale-105 shadow-lg shadow-pink-500/50"
+            >
+              Explore the Garden 🌸
+            </Link>
+            <button
+              onClick={() => document.getElementById("waitlist")?.scrollIntoView({ behavior: "smooth" })}
+              className="px-8 py-4 rounded-full cursor-pointer border-2 border-pink-300/50 hover:border-pink-300 text-pink-200 hover:text-pink-100 font-semibold transition-all"
+            >
+              Join the Waitlist
+            </button>
+          </div>
+
+          {/* Status cards */}
+          <div className="grid sm:grid-cols-2 gap-4 pt-12">
+            <div className="rounded-2xl border border-pink-300/20 bg-pink-500/10 backdrop-blur-xl p-6 hover:border-pink-300/40 transition-all">
+              <p className="text-pink-200/60 text-sm font-semibold tracking-wider uppercase">Status</p>
+              <p className="mt-3 text-lg font-bold text-pink-100">Cooking something up!</p>
             </div>
-            <div className="rounded-3xl border border-white/10 bg-white/8 p-5 text-white/80">
-              <p className="text-sm uppercase tracking-[0.2em] text-white/45">Waitlist</p>
-              <p className="mt-2 text-lg font-medium text-white">Form ready for early signups</p>
+            <div className="rounded-2xl border border-purple-300/20 bg-purple-500/10 backdrop-blur-xl p-6 hover:border-purple-300/40 transition-all">
+              <p className="text-purple-200/60 text-sm font-semibold tracking-wider uppercase">Placeholder</p>
+              <p className="mt-3 text-lg font-bold text-purple-100">Placeholder</p>
             </div>
           </div>
         </div>
 
-        <SceneCanvas />
-      </section>
+        {/* Waitlist section */}
+        <div id="waitlist" className="relative mt-24 w-full max-w-md">
+          <div className="rounded-3xl border border-pink-300/30 bg-white/5 backdrop-blur-xl p-8 shadow-2xl">
+            <h3 className="text-2xl font-bold text-pink-100 mb-6 text-center">
+              Stay in the loop 💌
+            </h3>
+            <WaitlistForm />
+          </div>
+        </div>
+      </div>
     </main>
   );
 }
