@@ -1,5 +1,6 @@
 import { useGLTF } from "@react-three/drei";
 import { ThreeEvent } from "@react-three/fiber";
+import { useRef } from "react";
 import * as THREE from "three";
 
 /*
@@ -53,12 +54,15 @@ import * as THREE from "three";
 export function DynamicModel({
   url,
   onSelect,
+  interactiveItemNames = ["Item_Lamp"],
 }: {
   url: string;
   onSelect?: (name: string) => void;
+  interactiveItemNames?: string[];
 }) {
   // Directly load the scene. No hardcoded nodes or materials.
   const { scene } = useGLTF(url);
+  const hoveredMaterialRef = useRef<THREE.Material | THREE.Material[] | null>(null);
 
   //   Put other actions here based on object names in the model
   const actions: Record<string, () => void> = {
@@ -70,13 +74,85 @@ export function DynamicModel({
     // Implement your lamp logic here (e.g., add a PointLight to the scene, change material emissive, etc.)
   };
 
+  const getObjectName = (object: THREE.Object3D) => object.name || object.parent?.name || "Unnamed Object";
+
+  const isInteractiveObject = (object: THREE.Object3D) => {
+    const name = getObjectName(object);
+    return interactiveItemNames.includes(name);
+  };
+
+  const applyHoverHighlight = (mesh: THREE.Mesh) => {
+    if (hoveredMaterialRef.current) {
+      return;
+    }
+
+    const { material } = mesh;
+
+    if (Array.isArray(material)) {
+      const clonedMaterials = material.map((entry) => entry.clone());
+      mesh.material = clonedMaterials as unknown as THREE.Material[];
+      hoveredMaterialRef.current = material;
+
+      clonedMaterials.forEach((entry) => {
+        if ("emissive" in entry) {
+          (entry as unknown as { emissive: THREE.Color }).emissive.set("#f472b6");
+        }
+        if ("emissiveIntensity" in entry) {
+          (entry as unknown as { emissiveIntensity: number }).emissiveIntensity = 0.8;
+        }
+        if ("color" in entry) {
+          (entry as unknown as { color: THREE.Color }).color.offsetHSL(0.05, 0.1, 0.18);
+        }
+      });
+      return;
+    }
+
+    const clonedMaterial = material.clone() as THREE.Material;
+    mesh.material = clonedMaterial;
+    hoveredMaterialRef.current = material;
+
+    if ("emissive" in clonedMaterial) {
+      (clonedMaterial as unknown as { emissive: THREE.Color }).emissive.set("#f472b6");
+    }
+    if ("emissiveIntensity" in clonedMaterial) {
+      (clonedMaterial as unknown as { emissiveIntensity: number }).emissiveIntensity = 0.8;
+    }
+    if ("color" in clonedMaterial) {
+      (clonedMaterial as unknown as { color: THREE.Color }).color.offsetHSL(0.05, 0.1, 0.18);
+    }
+  };
+
+  const clearHoverHighlight = (mesh: THREE.Mesh) => {
+    const originalMaterial = hoveredMaterialRef.current;
+
+    if (!originalMaterial) {
+      return;
+    }
+
+    mesh.material = originalMaterial;
+    hoveredMaterialRef.current = null;
+  };
+
   return (
     <primitive
       object={scene}
+      onPointerOver={(event: ThreeEvent<PointerEvent>) => {
+        if (isInteractiveObject(event.object)) {
+          document.body.style.cursor = "pointer";
+          applyHoverHighlight(event.object as THREE.Mesh);
+        }
+      }}
+      onPointerOut={(event: ThreeEvent<PointerEvent>) => {
+        document.body.style.cursor = "auto";
+        if (isInteractiveObject(event.object)) {
+          clearHoverHighlight(event.object as THREE.Mesh);
+        }
+      }}
       onClick={(e: ThreeEvent<MouseEvent>) => {
         e.stopPropagation();
         // Not exactlty needed, used to differentiate between different models
-        onSelect?.(e.object.name || e.object.parent?.name || "Unnamed Object");
+        const name = getObjectName(e.object);
+        onSelect?.(name);
         // Dynamic color change on whatever was clicked
         const mesh = e.object as THREE.Mesh;
         const material = mesh.material;
@@ -101,10 +177,9 @@ export function DynamicModel({
 
         console.log(
           "Interactable Name:",
-          e.object.name || e.object.parent?.name,
+          name,
         );
         // Add your custom interaction logic here (e.g., open a modal, play a sound, etc.)
-        const name = e.object.name || e.object.parent?.name || "Unnamed Object";
         if (actions[name]) {
           actions[name]();
         }

@@ -7,6 +7,8 @@ import Link from "next/link";
 import * as THREE from "three";
 import { useState } from "react";
 
+const interactiveItemNames = ["Item_Lamp"];
+
 export default function ExplorePage() {
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
@@ -18,7 +20,15 @@ export default function ExplorePage() {
         camera={{ position: [0, 0, 5], fov: 50 }}
       >
         <Stage environment="city" intensity={0.6}>
-          <DynamicModel url="/model/InteriorTest.glb" onSelect={setSelectedItem} />
+          <DynamicModel
+            url="/model/InteriorTest.glb"
+            onSelect={(name) => {
+              if (interactiveItemNames.includes(name)) {
+                setSelectedItem(name);
+              }
+            }}
+            interactiveItemNames={interactiveItemNames}
+          />
         </Stage>
         <OrbitControls makeDefault />
       </Canvas>
@@ -40,6 +50,10 @@ export default function ExplorePage() {
           Use your mouse to orbit around the scene. This is an interactive 3D
           preview of what&apos;s growing in the Hearts Garden.
         </p>
+      </div>
+
+      <div className="pointer-events-none absolute left-6 bottom-6 z-10 rounded-full border border-pink-300/25 bg-pink-500/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-pink-100/90 shadow-lg shadow-pink-500/10 sm:hidden">
+        Tap the glowing item
       </div>
 
       <ItemModal
