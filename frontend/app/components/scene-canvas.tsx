@@ -5,8 +5,8 @@ import { Canvas } from "@react-three/fiber";
 
 export default function SceneCanvas() {
   return (
-    <section className="relative min-h-[420px] overflow-hidden rounded-[1.75rem] border border-white/10 bg-slate-950/70 p-4 sm:p-6">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,_rgba(248,113,113,0.35),_transparent_28%),radial-gradient(circle_at_70%_35%,_rgba(59,130,246,0.3),_transparent_26%),radial-gradient(circle_at_50%_80%,_rgba(34,197,94,0.18),_transparent_24%)]" />
+    <section className="relative min-h-105 overflow-hidden rounded-[1.75rem] border border-white/10 bg-slate-950/70 p-4 sm:p-6">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(248,113,113,0.35),transparent_28%),radial-gradient(circle_at_70%_35%,rgba(59,130,246,0.3),transparent_26%),radial-gradient(circle_at_50%_80%,rgba(34,197,94,0.18),transparent_24%)]" />
 
       <div className="relative flex h-full flex-col gap-4 text-white">
         <div className="flex items-start justify-between gap-4">
@@ -19,7 +19,7 @@ export default function SceneCanvas() {
           </div>
         </div>
 
-        <div className="relative min-h-[320px] flex-1 overflow-hidden rounded-[1.5rem] border border-white/10 bg-slate-950/80">
+        <div className="relative min-h-80 flex-1 overflow-hidden rounded-3xl border border-white/10 bg-slate-950/80">
           <Canvas camera={{ position: [0, 0, 5], fov: 45 }} dpr={[1, 1.5]}>
             <color attach="background" args={["#020617"]} />
             <fog attach="fog" args={["#020617", 6, 14]} />

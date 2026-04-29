@@ -2,10 +2,14 @@
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Stage } from "@react-three/drei";
 import { DynamicModel } from "../components/DynamicModel";
+import ItemModal from "../components/ItemModal";
 import Link from "next/link";
 import * as THREE from "three";
+import { useState } from "react";
 
 export default function ExplorePage() {
+  const [selectedItem, setSelectedItem] = useState<string | null>(null);
+
   return (
     <main className="relative w-screen h-screen overflow-hidden">
       {/* 3D Canvas takes full screen */}
@@ -14,7 +18,7 @@ export default function ExplorePage() {
         camera={{ position: [0, 0, 5], fov: 50 }}
       >
         <Stage environment="city" intensity={0.6}>
-          <DynamicModel url="/model/InteriorTest.glb" />
+          <DynamicModel url="/model/InteriorTest.glb" onSelect={setSelectedItem} />
         </Stage>
         <OrbitControls makeDefault />
       </Canvas>
@@ -37,6 +41,12 @@ export default function ExplorePage() {
           preview of what&apos;s growing in the Hearts Garden.
         </p>
       </div>
+
+      <ItemModal
+        isOpen={selectedItem !== null}
+        itemName={selectedItem ?? ""}
+        onClose={() => setSelectedItem(null)}
+      />
     </main>
   );
 }
