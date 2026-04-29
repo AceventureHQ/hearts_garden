@@ -7,9 +7,9 @@ export default function Home() {
     <main className="relative min-h-screen overflow-hidden">
       {/* Animated background */}
       <div className="fixed inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-pink-800 to-rose-900 opacity-30" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,_rgba(236,72,153,0.15),_transparent_50%),radial-gradient(circle_at_80%_80%,_rgba(168,85,247,0.15),_transparent_50%)]" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-br from-purple-900 via-pink-800 to-rose-900 opacity-30" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(236,72,153,0.15),transparent_50%),radial-gradient(circle_at_80%_80%,rgba(168,85,247,0.15),transparent_50%)]" />
+        <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent" />
         
         {/* Animated floating elements */}
         <div className="absolute top-20 left-10 w-64 h-64 bg-pink-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" />
@@ -52,7 +52,7 @@ export default function Home() {
 
           {/* Main heading with whimsical styling */}
           <div className="space-y-6">
-            <h1 className="text-7xl sm:text-8xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-300 to-pink-300">
+            <h1 className="text-7xl sm:text-8xl font-bold tracking-tight text-transparent bg-clip-text bg-linear-to-r from-pink-300 via-purple-300 to-pink-300">
               Growing
             </h1>
             <h2 className="text-3xl sm:text-4xl font-semibold text-pink-100/80">
@@ -69,7 +69,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6">
             <Link
               href="/explore"
-              className="px-8 py-4 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-semibold transition-all transform hover:scale-105 shadow-lg shadow-pink-500/50"
+              className="px-8 py-4 rounded-full bg-linear-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-semibold transition-all transform hover:scale-105 shadow-lg shadow-pink-500/50"
             >
               Explore the Garden 🌸
             </Link>
