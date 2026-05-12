@@ -33,16 +33,24 @@ Recommended settings:
 - Install Command: `npm install`
 - Output Directory: leave default for Next.js
 
-## Supabase Setup
+## Supabase & Resend Setup
 
 The app now has browser and server Supabase client helpers ready for later backend work.
 
-1. Copy `.env.local.example` to `.env.local`.
-2. Add the values from your Supabase project dashboard.
-3. In Vercel, add the same environment variables under Project Settings -> Environment Variables.
+.env.local
+1. Add the values from your Supabase project dashboard.
+2. In Vercel, add the same environment variables under Project Settings -> Environment Variables.
+3. Set `RESEND_API_KEY` from your Resend dashboard.
+4. Add a sender address later if you want to send confirmation or launch emails.
 
-Required variables:
+Required variable for the current signup flow:
 
+- `RESEND_API_KEY`
+
+Optional variables for later email sending and Supabase work:
+
+- `RESEND_FROM_EMAIL`
+- `RESEND_NOTIFICATION_EMAIL`
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
@@ -51,6 +59,7 @@ Optional server-only variable for later admin access:
 - `SUPABASE_SERVICE_ROLE_KEY`
 
 Use `lib/supabase/browser.ts` in client components and `lib/supabase/server.ts` in server code.
+The signup form posts to `/api/waitlist`, which stores each address in Resend as a contact.
 
 ## Learn More
 
