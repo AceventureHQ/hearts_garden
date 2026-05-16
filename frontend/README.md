@@ -20,6 +20,21 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Waitlist Setup (Resend)
+
+The waitlist form posts to `POST /api/waitlist`, which adds emails to a Resend Audience.
+
+1. Create a Resend API key: https://resend.com/api-keys
+2. Create an Audience in Resend and copy its ID (under segment in audience, copy its ID)
+3. Add the following to `.env.local`:
+
+```bash
+RESEND_API_KEY=re_xxxxxxxxx
+RESEND_AUDIENCE_ID=aud_xxxxxxxxx
+```
+
+4. Restart the dev server after adding environment variables.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
