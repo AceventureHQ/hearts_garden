@@ -179,7 +179,7 @@ export default function Home() {
               <div className="flex justify-center">
                 <form
                   onSubmit={handleSubmit}
-                  className="w-full max-w-2xl rounded-4xl border border-white/70 bg-white/80 p-3 shadow-[0_30px_80px_rgba(120,53,15,0.12)] backdrop-blur sm:p-4"
+                  className="w-full max-w-2xl rounded-4xl border border-white/70 bg-white/80 p-6 shadow-[0_30px_80px_rgba(120,53,15,0.12)] backdrop-blur sm:p-4"
                 >
                   <div className="flex flex-col gap-3 sm:flex-row">
                     <label className="sr-only" htmlFor="waitlist-email">
@@ -193,7 +193,7 @@ export default function Home() {
                       value={email}
                       onChange={(event) => setEmail(event.target.value)}
                       placeholder="Enter your email address"
-                      className="h-14 flex-1 rounded-[1.3rem] border border-[#e7d7c9] bg-[#fffaf5] px-5 text-base text-[#1f1714] outline-none transition focus:border-[#c56a2d] focus:ring-4 focus:ring-[#c56a2d]/10"
+                      className="h-14 flex-1 rounded-[1.3rem] border border-[#e7d7c9] bg-[#fffaf5] p-3 text-base text-[#1f1714] outline-none transition focus:border-[#c56a2d] focus:ring-4 focus:ring-[#c56a2d]/10"
                     />
                     <button
                       type="submit"
