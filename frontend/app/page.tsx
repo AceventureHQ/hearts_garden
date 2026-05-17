@@ -38,7 +38,7 @@ const SOCIAL_LINKS = [
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 256 256"
         className="h-6 w-6 shrink-0"
-        aria-hidden
+        aria-hidden 
       >
         <g fill="none">
           <rect
@@ -107,11 +107,36 @@ const SOCIAL_LINKS = [
   },
 ] as const;
 
+type SocialLinkItem = (typeof SOCIAL_LINKS)[number];
+
+const SOCIAL_MEDIA_LINKS = SOCIAL_LINKS.filter(
+  (link) => !link.href.startsWith("mailto:"),
+);
+const EMAIL_LINK = SOCIAL_LINKS.find((link) =>
+  link.href.startsWith("mailto:"),
+)!;
+
+function SocialLink({ href, label, icon }: SocialLinkItem) {
+  const isEmail = href.startsWith("mailto:");
+
+  return (
+    <a
+      href={href}
+      target={isEmail ? undefined : "_blank"}
+      rel={isEmail ? undefined : "noopener noreferrer"}
+      className="inline-flex items-center gap-2.5 text-sm font-medium text-[#54413a] transition hover:text-[#9a3412] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#c56a2d] sm:text-base"
+    >
+      {icon}
+      <span>{label}</span>
+    </a>
+  );
+}
+
 export default function Home() {
   const [email, setEmail] = useState("");
   const [state, setState] = useState<SignupState>("idle");
   const [message, setMessage] = useState(
-    "Get early launch updates and the first invite when Hearts Garden goes live.",
+    "Be the first to know Hearts Garden updates!",
   );
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -173,9 +198,6 @@ export default function Home() {
               priority
             />
             <div className="space-y-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#9a3412] sm:text-sm">
-                Hearts Garden
-              </p>
               <div className="flex justify-center">
                 <form
                   onSubmit={handleSubmit}
@@ -218,30 +240,20 @@ export default function Home() {
                 </form>
               </div>
               <div className="flex flex-col items-center gap-2.5">
-                {SOCIAL_LINKS.map(({ href, label, icon }) => (
-                  <a
-                    key={href}
-                    href={href}
-                    target={href.startsWith("mailto:") ? undefined : "_blank"}
-                    rel={
-                      href.startsWith("mailto:")
-                        ? undefined
-                        : "noopener noreferrer"
-                    }
-                    className="inline-flex items-center gap-2.5 text-sm font-medium text-[#54413a] transition hover:text-[#9a3412] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#c56a2d] sm:text-base"
-                  >
-                    {icon}
-                    <span>{label}</span>
-                  </a>
-                ))}
+                <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2">
+                  {SOCIAL_MEDIA_LINKS.map((link) => (
+                    <SocialLink key={link.href} {...link} />
+                  ))}
+                </div>
+                <SocialLink {...EMAIL_LINK} />
               </div>
             </div>
           </div>
 
           <section className="flex h-full flex-col overflow-hidden rounded-4xl border border-white/70 bg-white/75 shadow-[0_30px_80px_rgba(120,53,15,0.12)] backdrop-blur">
             <div className="border-b border-[#ead9cc] px-5 py-4 text-center sm:px-6 sm:py-5 lg:px-8">
-              <p className="text-base font-semibold uppercase tracking-[0.35em] text-[#9a3412] sm:text-lg">
-                Find us
+              <p className="text-base font-bold uppercase tracking-[0.35em] text-[#9a3412] sm:text-lg">
+                Visit the Market!
               </p>
               <p className="mt-2 text-xs font-medium text-[#675148] sm:text-sm">
                 Every Saturday from 8am-1pm.
