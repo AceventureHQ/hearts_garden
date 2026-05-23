@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import Image from "next/image";
+import HeroCarousel from "./components/HeroCarousel";
 
 type SignupState = "idle" | "submitting" | "success" | "error";
 
@@ -38,7 +39,7 @@ const SOCIAL_LINKS = [
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 256 256"
         className="h-6 w-6 shrink-0"
-        aria-hidden 
+        aria-hidden
       >
         <g fill="none">
           <rect
@@ -185,10 +186,20 @@ export default function Home() {
   }
 
   return (
-    <main className="relative min-h-screen overflow-hidden px-4 py-6 sm:px-6 sm:py-8 lg:px-16">
-      <div className="mx-auto grid w-full max-w-7xl gap-6 sm:gap-8 lg:min-h-[calc(100vh-4rem)] lg:content-center lg:gap-10">
-        <section className="grid gap-6 lg:grid-cols-2 lg:items-stretch">
-          <div className="flex h-full min-h-72 flex-col items-center justify-center gap-5 px-2 text-center sm:min-h-96 sm:px-4 sm:gap-6">
+    <main className="relative overflow-hidden pb-10">
+      <HeroCarousel />
+
+      <section className="mx-auto mt-6 grid w-full max-w-7xl gap-6 px-4 sm:px-6 lg:mt-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:px-8">
+        <div className="rounded-[2rem] border border-white/70 bg-white/80 p-5 shadow-[0_24px_70px_rgba(120,53,15,0.12)] backdrop-blur sm:p-6">
+          <div className="flex flex-col items-center gap-4 text-center">
+            <div className="max-w-xl">
+              <p className="text-xs font-semibold uppercase tracking-[0.34em] text-[#9a3412]">
+                Join the list
+              </p>
+              <h2 className="mt-2 text-2xl font-semibold text-[#1f1714] sm:text-3xl">
+                Stay close to the next Hearts Garden update.
+              </h2>
+            </div>
             <Image
               src="/images/logo.png"
               width={350}
@@ -197,81 +208,82 @@ export default function Home() {
               className="h-auto w-[clamp(12rem,48vw,21.875rem)]"
               priority
             />
-            <div className="space-y-4">
-              <div className="flex justify-center">
-                <form
-                  onSubmit={handleSubmit}
-                  className="w-full max-w-2xl rounded-4xl border border-white/70 bg-white/80 p-6 shadow-[0_30px_80px_rgba(120,53,15,0.12)] backdrop-blur sm:p-4"
+          </div>
+          <div className="mt-6 flex justify-center">
+            <form
+              onSubmit={handleSubmit}
+              className="w-full max-w-2xl rounded-4xl border border-white/70 bg-white/80 p-6 shadow-[0_30px_80px_rgba(120,53,15,0.12)] backdrop-blur sm:p-4"
+            >
+              <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+                <label className="sr-only" htmlFor="waitlist-email">
+                  Email address
+                </label>
+                <input
+                  id="waitlist-email"
+                  type="email"
+                  inputMode="email"
+                  autoComplete="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  placeholder="Enter your email address"
+                  className="h-14 w-full max-w-xl rounded-[1.3rem] border border-[#e7d7c9] bg-[#fffaf5] p-3 text-base text-[#1f1714] outline-none transition focus:border-[#c56a2d] focus:ring-4 focus:ring-[#c56a2d]/10 sm:flex-1"
+                />
+                <button
+                  type="submit"
+                  disabled={state === "submitting"}
+                  className="inline-flex h-10 items-center justify-center rounded-[1.3rem] bg-[#1f1714] px-6 text-base font-semibold text-[#fff8ef] transition hover:bg-[#35261f] disabled:cursor-not-allowed disabled:opacity-70 sm:h-14"
                 >
-                  <div className="flex flex-col gap-3 sm:flex-row">
-                    <label className="sr-only" htmlFor="waitlist-email">
-                      Email address
-                    </label>
-                    <input
-                      id="waitlist-email"
-                      type="email"
-                      inputMode="email"
-                      autoComplete="email"
-                      value={email}
-                      onChange={(event) => setEmail(event.target.value)}
-                      placeholder="Enter your email address"
-                      className="h-14 flex-1 rounded-[1.3rem] border border-[#e7d7c9] bg-[#fffaf5] p-3 text-base text-[#1f1714] outline-none transition focus:border-[#c56a2d] focus:ring-4 focus:ring-[#c56a2d]/10"
-                    />
-                    <button
-                      type="submit"
-                      disabled={state === "submitting"}
-                      className="inline-flex h-10 sm:h-14 items-center justify-center rounded-[1.3rem] bg-[#1f1714] px-6 text-base font-semibold text-[#fff8ef] transition hover:bg-[#35261f] disabled:cursor-not-allowed disabled:opacity-70"
-                    >
-                      {state === "submitting" ? "Joining..." : "Join the list"}
-                    </button>
-                  </div>
-                  <p
-                    className={`mt-3 px-1 text-sm ${
-                      state === "error"
-                        ? "text-[#b42318]"
-                        : state === "success"
-                          ? "text-[#0f766e]"
-                          : "text-[#675148]"
-                    }`}
-                    aria-live="polite"
-                  >
-                    {message}
-                  </p>
-                </form>
+                  {state === "submitting" ? "Joining..." : "Join the list"}
+                </button>
               </div>
-              <div className="flex flex-col items-center gap-2.5">
-                <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2">
-                  {SOCIAL_MEDIA_LINKS.map((link) => (
-                    <SocialLink key={link.href} {...link} />
-                  ))}
-                </div>
-                <SocialLink {...EMAIL_LINK} />
-              </div>
-            </div>
+              <p
+                className={`mt-3 px-1 text-sm ${
+                  state === "error"
+                    ? "text-[#b42318]"
+                    : state === "success"
+                      ? "text-[#0f766e]"
+                      : "text-[#675148]"
+                }`}
+                aria-live="polite"
+              >
+                {message}
+              </p>
+            </form>
           </div>
 
-          <section className="flex h-full flex-col overflow-hidden rounded-4xl border border-white/70 bg-white/75 shadow-[0_30px_80px_rgba(120,53,15,0.12)] backdrop-blur">
-            <div className="border-b border-[#ead9cc] px-5 py-4 text-center sm:px-6 sm:py-5 lg:px-8">
-              <p className="text-base font-bold uppercase tracking-[0.35em] text-[#9a3412] sm:text-lg">
-                Visit the Market!
-              </p>
-              <p className="mt-2 text-xs font-medium text-[#675148] sm:text-sm">
-                Every Saturday from 8am-1pm.
-              </p>
+          <div className="mt-6 flex flex-col items-center gap-3 text-center">
+            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2">
+              {SOCIAL_MEDIA_LINKS.map((link) => (
+                <SocialLink key={link.href} {...link} />
+              ))}
             </div>
-            <div className="min-h-56 w-full flex-1 sm:min-h-72 lg:min-h-128">
-              <iframe
-                title="Hearts Garden location on Google Maps"
-                src={MAP_EMBED_URL}
-                className="h-full w-full border-0"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                allowFullScreen
-              />
+            <div className="flex justify-center">
+              <SocialLink {...EMAIL_LINK} />
             </div>
-          </section>
+          </div>
+        </div>
+
+        <section className="flex min-h-[28rem] flex-col overflow-hidden rounded-[2rem] border border-white/70 bg-white/75 shadow-[0_24px_70px_rgba(120,53,15,0.12)] backdrop-blur">
+          <div className="border-b border-[#ead9cc] px-5 py-4 text-center sm:px-6 sm:py-5 lg:px-8">
+            <p className="text-base font-bold uppercase tracking-[0.35em] text-[#9a3412] sm:text-lg">
+              Visit the Market!
+            </p>
+            <p className="mt-2 text-xs font-medium text-[#675148] sm:text-sm">
+              Every Saturday from 8am-1pm.
+            </p>
+          </div>
+          <div className="min-h-56 w-full flex-1 sm:min-h-72 lg:min-h-[34rem]">
+            <iframe
+              title="Hearts Garden location on Google Maps"
+              src={MAP_EMBED_URL}
+              className="h-full w-full border-0"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+            />
+          </div>
         </section>
-      </div>
+      </section>
     </main>
   );
 }
