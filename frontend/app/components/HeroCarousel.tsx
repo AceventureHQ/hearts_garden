@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const CAROUSEL_ITEMS = [
   {
@@ -50,13 +50,25 @@ const CAROUSEL_ITEMS = [
 
 export default function HeroCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const touchStartX = useRef<number | null>(null);
+  const touchDeltaX = useRef(0);
 
   useEffect(() => {
     const timer = window.setInterval(() => {
       setActiveIndex((current) => (current + 1) % CAROUSEL_ITEMS.length);
     }, 5500);
 
-    return () => window.clearInterval(timer);
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "ArrowLeft") goToPrevious();
+      if (e.key === "ArrowRight") goToNext();
+    }
+
+    window.addEventListener("keydown", onKey);
+
+    return () => {
+      window.clearInterval(timer);
+      window.removeEventListener("keydown", onKey);
+    };
   }, []);
 
   function goToPrevious() {
@@ -76,6 +88,26 @@ export default function HeroCarousel() {
           <div
             className="flex h-full transition-transform duration-700 ease-out"
             style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+            onTouchStart={(e) => {
+              touchStartX.current = e.touches[0].clientX;
+              touchDeltaX.current = 0;
+            }}
+            onTouchMove={(e) => {
+              if (touchStartX.current === null) return;
+              const currentX = e.touches[0].clientX;
+              touchDeltaX.current = currentX - touchStartX.current;
+            }}
+            onTouchEnd={() => {
+              const delta = touchDeltaX.current;
+              const threshold = 50; // px
+              if (delta > threshold) {
+                goToPrevious();
+              } else if (delta < -threshold) {
+                goToNext();
+              }
+              touchStartX.current = null;
+              touchDeltaX.current = 0;
+            }}
           >
             {CAROUSEL_ITEMS.map((item) => (
               <article
