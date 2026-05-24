@@ -137,7 +137,7 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [state, setState] = useState<SignupState>("idle");
   const [message, setMessage] = useState(
-    "Be the first to know Hearts Garden updates!",
+    "Come join the fun!",
   );
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -146,7 +146,7 @@ export default function Home() {
     const trimmedEmail = email.trim();
     if (!trimmedEmail) {
       setState("error");
-      setMessage("Enter your email address to join the waitlist.");
+      setMessage("Enter your email address to join the journey!");
       return;
     }
 
@@ -193,11 +193,11 @@ export default function Home() {
         <div className="rounded-[2rem] border border-white/70 bg-white/80 p-5 shadow-[0_24px_70px_rgba(120,53,15,0.12)] backdrop-blur sm:p-6">
           <div className="flex flex-col items-center gap-4 text-center">
             <div className="max-w-xl">
-              <p className="text-xs font-semibold uppercase tracking-[0.34em] text-[#9a3412]">
-                Join the list
+              <p className="text-base font-bold uppercase tracking-[0.35em] text-[#9a3412] sm:text-xl">
+                Join the Journey
               </p>
-              <h2 className="mt-2 text-2xl font-semibold text-[#1f1714] sm:text-3xl">
-                Stay close to the next Hearts Garden update.
+              <h2 className="mt-2 text-m font-medium text-[#675148]">
+                Receive Hearts Garden updates.
               </h2>
             </div>
             <Image
@@ -205,7 +205,7 @@ export default function Home() {
               width={350}
               height={350}
               alt="Hearts Garden logo"
-              className="h-auto w-[clamp(12rem,48vw,21.875rem)]"
+              className="h-auto w-[clamp(12rem,48vw,21.875rem)] py-4"
               priority
             />
           </div>
@@ -233,7 +233,7 @@ export default function Home() {
                   disabled={state === "submitting"}
                   className="inline-flex h-10 items-center justify-center rounded-[1.3rem] bg-[#1f1714] px-6 text-base font-semibold text-[#fff8ef] transition hover:bg-[#35261f] disabled:cursor-not-allowed disabled:opacity-70 sm:h-14"
                 >
-                  {state === "submitting" ? "Joining..." : "Join the list"}
+                  {state === "submitting" ? "Joining..." : "Sign up"}
                 </button>
               </div>
               <p
@@ -265,10 +265,10 @@ export default function Home() {
 
         <section className="flex min-h-[28rem] flex-col overflow-hidden rounded-[2rem] border border-white/70 bg-white/75 shadow-[0_24px_70px_rgba(120,53,15,0.12)] backdrop-blur">
           <div className="border-b border-[#ead9cc] px-5 py-4 text-center sm:px-6 sm:py-5 lg:px-8">
-            <p className="text-base font-bold uppercase tracking-[0.35em] text-[#9a3412] sm:text-lg">
-              Visit the Market!
+            <p className="text-base font-bold uppercase tracking-[0.35em] text-[#9a3412] sm:text-xl">
+              Visit the Market
             </p>
-            <p className="mt-2 text-xs font-medium text-[#675148] sm:text-sm">
+            <p className="mt-2 text-m font-medium text-[#675148]">
               Every Saturday from 8am-1pm.
             </p>
           </div>
