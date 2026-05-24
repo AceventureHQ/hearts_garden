@@ -4,13 +4,13 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 const CAROUSEL_ITEMS = [
-  {
-    src: "/images/market_stand.JPG",
-    eyebrow: "Seasonal pieces",
-    title: "Farmer market stand",
-    description:
-      "Lorem ipsum",
-  },
+  // {
+  //   src: "/images/market_stand.JPG",
+  //   eyebrow: "Seasonal pieces",
+  //   title: "Farmer market stand",
+  //   description:
+  //     "Lorem ipsum",
+  // },
   {
     src: "/images/bracelet_display.JPG",
     eyebrow: "Fresh arrivals",
